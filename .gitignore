@@ -1,0 +1,21 @@
+# Entornos virtuales
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Datos pesados
+*.parquet
+*.zip
+*.tar.gz
+
+# Archivos de sistema / IDE
+.DS_Store
+.vscode/
+.idea/

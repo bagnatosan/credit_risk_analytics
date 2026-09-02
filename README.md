@@ -14,6 +14,18 @@ Este proyecto desarrolla una solución integral de análisis de riesgo creditici
 
 ---
 
+## 🤖 Estrategia de Modelado y Selección de Algoritmos
+
+1. 🎯 **Problema de Clasificación Binaria**:
+   * Dado que la variable target `loan_status` es binaria ($0$ = Cumplió, $1$ = Moroso), el pipeline utiliza algoritmos de clasificación supervisada.
+2. 🏦 **Explicabilidad Regulatoria en Banca**:
+   * Las entidades financieras exigen modelos auditables que justifiquen el rechazo de solicitudes crediticias. La **Regresión Logística (`LogisticRegression`)** ofrece coeficientes interpretables y probabilidades continuas transparentes.
+3. 📏 **Regla de Oro: Modelo Base (*Baseline*) vs. Ensamble**:
+   * Se entrena primero una **Regresión Logística** como *Baseline* de referencia mínima.
+   * Luego se contrastan modelos no lineales (*Random Forest Classifier / XGBoost*) para evaluar si el incremento en precisión justifica la mayor complejidad computacional.
+
+---
+
 ## 🛠️ Tecnologías Utilizadas
 
 * **Lenguaje y Entorno:** Python 3.14 en VS Code (CachyOS / Linux).

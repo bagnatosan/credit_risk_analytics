@@ -22,7 +22,9 @@ Este proyecto desarrolla una solución integral de análisis de riesgo creditici
    * Las entidades financieras exigen modelos auditables que justifiquen el rechazo de solicitudes crediticias. La **Regresión Logística (`LogisticRegression`)** ofrece coeficientes interpretables y probabilidades continuas transparentes.
 3. 📏 **Regla de Oro: Modelo Base (*Baseline*) vs. Ensamble**:
    * Se entrena primero una **Regresión Logística** como *Baseline* de referencia mínima.
-   * Luego se contrastan modelos no lineales (*Random Forest Classifier / XGBoost*) para evaluar si el incremento en precisión justifica la mayor complejidad computacional.
+   * **Resultados Baseline**: Accuracy 85%, Precision 73%, pero con un **Recall bajo del 49% (723 Falsos Negativos)**, lo que significa que el 51% de los morosos no fue detectado a tiempo.
+4. 🌳 **Progresión hacia Ensamble (Random Forest y Gradient Boosting)**:
+   * Probar **Random Forest** (ensamble paralelo por votación) y **XGBoost / LightGBM** (ensamble secuencial por corrección de errores) para elevar el Recall y recortar las pérdidas por morosidad no detectada, sin requerir escalado de características en los árboles.
 
 ---
 

@@ -1,72 +1,81 @@
 # 📊 Credit Risk Analytics: Pipeline de Machine Learning & Dashboard en Power BI
 
-Este proyecto desarrolla una solución integral de análisis de riesgo crediticio (*credit risk*), combinando modelos predictivos en Python para estimar la probabilidad de mora (*default*) y un dashboard interactivo en Power BI orientado a la toma de decisiones de negocio.
+Solución integral de riesgo crediticio (*credit risk*) que combina ingeniería de datos, modelos predictivos en Python para estimar la probabilidad de incumplimiento (*default*) y un tablero interactivo en Power BI diseñado para la toma de decisiones financieras y control del capital.
 
 ---
 
 ## 🎯 Preguntas Guía de Negocio
 
-1. **Tasa Base de Mora:** ¿Cuál es la proporción de clientes en mora (*default rate*) en la cartera crediticia actual?
-2. **Factores Críticos de Riesgo:** ¿Qué impacto tienen la tasa de interés, el nivel de ingresos, el porcentaje del préstamo sobre los ingresos y la antigüedad crediticia en el riesgo de no pago?
-3. **Calidad y Tratamiento del Dato:** ¿Qué patrones de valores nulos o atípicos (*outliers*) existen en los datos históricos y cómo deben imputarse y tratarse?
-4. **Capacidad Predictiva:** ¿Qué algoritmo de Machine Learning clasifica con mayor precisión y sensibilidad a los perfiles de alto riesgo?
-5. **Monitoreo Ejecutivo:** ¿Cómo disponibilizar los resultados y scores de riesgo en un panel dinámico para el equipo de créditos?
+1. **Exposición de Cartera (Línea Base):** ¿Cuál es la tasa de mora histórica en la cartera crediticia y qué volumen de capital representa esa pérdida potencial para la entidad?
+2. **Factores Críticos de Riesgo:** ¿Qué condiciones del solicitante (relación cuota/ingreso, salario, tasa asignada y calificación crediticia) disparan con mayor peso la probabilidad de impago?
+3. **Calidad e Integridad de Datos:** ¿Qué inconsistencias y valores nulos presentaban los registros históricos y cómo garantiza su depuración la fiabilidad de las decisiones crediticias?
+4. **Capacidad Predictiva y Mitigación:** ¿Qué algoritmo y política de corte (*umbral de decisión*) maximizan la captura preventiva de morosos (Recall) minimizando el rechazo innecesario de clientes solventes (Precision)?
 
 ---
 
-## 🤖 Estrategia de Modelado y Selección de Algoritmos
+## 🤖 Estrategia de Modelado y Resultados
 
-1. 🎯 **Problema de Clasificación Binaria**:
-   * Dado que la variable target `loan_status` es binaria ($0$ = Cumplió, $1$ = Moroso), el pipeline utiliza algoritmos de clasificación supervisada.
-2. 🏦 **Explicabilidad Regulatoria en Banca**:
-   * Las entidades financieras exigen modelos auditables que justifiquen el rechazo de solicitudes crediticias. La **Regresión Logística (`LogisticRegression`)** ofrece coeficientes interpretables y probabilidades continuas transparentes.
-3. 📏 **Regla de Oro: Modelo Base (*Baseline*) vs. Ensamble**:
-   * Se entrena primero una **Regresión Logística** como *Baseline* de referencia mínima.
-   * **Resultados Baseline**: Accuracy 85%, Precision 73%, pero con un **Recall bajo del 49% (723 Falsos Negativos)**, lo que significa que el 51% de los morosos no fue detectado a tiempo.
-4. 🌳 **Progresión hacia Ensamble (Random Forest y Gradient Boosting)**:
-   * Probar **Random Forest** (ensamble paralelo por votación) y **XGBoost / LightGBM** (ensamble secuencial por corrección de errores) para elevar el Recall y recortar las pérdidas por morosidad no detectada, sin requerir escalado de características en los árboles.
+El problema se abordó como una **clasificación binaria** supervisada sobre la variable objetivo `loan_status` ($0$ = Cumplidor, $1$ = Moroso), priorizando la protección del capital frente a préstamos incobrables.
+
+### Comparativa de Modelos y Ajuste de Política
+
+| Modelo | Umbral de Corte | Precision (Mora) | Recall (Mora) | F1-Score | Accuracy Global | Diagnóstico de Negocio |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Regresión Logística (Baseline)** | 0.50 | 0.73 | 0.49 | 0.59 | 0.85 | Insuficiente: 51% de los morosos no fue detectado (723 fugas de capital). |
+| **Random Forest (Estándar)** | 0.50 | **0.98** | 0.71 | **0.82** | **0.93** | Excelente precisión, pero deja escapar a un 29% de deudores. |
+| **Random Forest (Class Weight Balanced)** | 0.50 | 0.91 | 0.72 | 0.81 | 0.92 | El balanceo forzado penalizó precisión sin mover el recall significativamente. |
+| **Random Forest (Política Calibrada)** | **0.35** | 0.90 | **0.75** | 0.81 | **0.93** | **Modelo Seleccionado:** Detecta al 75% de los morosos (1.066 casos) con 90% de confiabilidad. |
+
+> **Criterio de Negocio (Umbral 0.35):** En gestión de riesgo financiero, esperar a una certeza del 50% para frenar un préstamo es imprudente. Fijar el corte en el 35% de probabilidad de mora permitió interceptar a cientos de deudores adicionales antes del desembolso, manteniendo una tasa de falsas alarmas extremadamente baja (9 de cada 10 solicitudes frenadas son morosos reales).
 
 ---
+## 🛠️ Stack Tecnológico
 
-## 🛠️ Tecnologías Utilizadas
-
-* **Lenguaje y Entorno:** Python 3.14 en VS Code (CachyOS / Linux).
-* **Ingeniería de Datos y ML:**
-  * 🐼 **`pandas` / `numpy`**: Limpieza profunda, preprocesamiento y transformaciones.
-  * 🤖 **`scikit-learn`**: Modelado predictivo (clasificación), codificación de variables y métricas de desempeño.
-  * 📈 **`matplotlib` / `seaborn`**: Análisis exploratorio visual inicial.
-* **Business Intelligence & Visualización:**
-  * 📊 **Power BI**: Modelado semántico, medidas en DAX y diseño del dashboard interactivo.
+* **Entorno y Lenguaje:** Python 3.14 en VS Code (Linux).
+* **Ciencia de Datos & ML:**
+  * `pandas` & `numpy`: Limpieza, transformación y manipulación tabular.
+  * `scikit-learn`: Partición estratificada (80/20), algoritmos de clasificación, calibración de umbrales con `predict_proba()` y métricas de desempeño.
+* **Business Intelligence:**
+  * `Power BI`: Modelado semántico, medidas operativas en DAX y visualización interactiva de KPIs de cartera.
 
 ---
 
 ## 🔄 Arquitectura del Pipeline
 
 ```text
-[ Dataset Raw ] ──> [ EDA & Limpieza en Python ] ──> [ Modelo ML & Scoring ]
-                                                              │
-                                                              ▼
-                                                 [ Dataset Procesado (CSV/Parquet) ]
-                                                              │
-                                                              ▼
-                                                 [ Dashboard Interactivo en Power BI ]
+[ Dataset Histórico (Crudo) ]
+             │
+             ▼
+[ EDA, Limpieza y Tratamiento de Outliers ]
+             │
+             ▼
+[ Partición Estratificada (Train 80% / Test 20%) ]
+             │
+             ▼
+[ Entrenamiento Random Forest & Calibración de Umbral (0.35) ]
+             │
+             ▼
+[ Exportación: dataset_creditos_scoreado.csv ]
+  (Incluye: probabilidad_mora, prediccion_mora y decision_credito)
+             │
+             ▼
+[ Dashboard Ejecutivo en Power BI (Seguimiento & KPIs de Riesgo) ]
+
 ```
 
----
 
-## 📁 Estructura del Repositorio
-
+## 📁 Estructura del Proyecto
 ```text
 credit_risk_analytics/
 ├── dashboards/
 │   ├── credit_risk_dashboard.pbix    # Reporte interactivo de Power BI
-│   └── screenshots/                  # Vistas previas del panel
+│   └── screenshots/                  # Capturas del panel ejecutivo
 ├── data/
 │   ├── raw/                          # Dataset original (credit_risk_dataset.csv)
-│   └── processed/                    # Datos limpios y enriquecidos con scoring
+│   └── processed/                    # Dataset final scoreado (dataset_creditos_scoreado.csv)
 ├── notebooks/
-│   ├── 01_eda_credit_data.ipynb      # Análisis exploratorio y limpieza (EDA)
-│   └── 02_modelado_evaluacion.ipynb  # Entrenamiento, validación y exportación de ML
+│   ├── 01_eda_credit_data.ipynb      # Limpieza, imputaciones y análisis exploratorio
+│   └── 02_modelado_evaluacion.ipynb  # Baseline, Random Forest, umbral y exportación
 ├── README.md
 └── .gitignore
 ```

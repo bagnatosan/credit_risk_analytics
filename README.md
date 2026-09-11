@@ -6,10 +6,15 @@ Solución integral de riesgo crediticio (*credit risk*) que combina ingeniería 
 
 ## 🎯 Preguntas Guía de Negocio
 
-1. **Exposición de Cartera (Línea Base):** ¿Cuál es la tasa de mora histórica en la cartera crediticia y qué volumen de capital representa esa pérdida potencial para la entidad?
-2. **Factores Críticos de Riesgo:** ¿Qué condiciones del solicitante (relación cuota/ingreso, salario, tasa asignada y calificación crediticia) disparan con mayor peso la probabilidad de impago?
-3. **Calidad e Integridad de Datos:** ¿Qué inconsistencias y valores nulos presentaban los registros históricos y cómo garantiza su depuración la fiabilidad de las decisiones crediticias?
-4. **Capacidad Predictiva y Mitigación:** ¿Qué algoritmo y política de corte (*umbral de decisión*) maximizan la captura preventiva de morosos (Recall) minimizando el rechazo innecesario de clientes solventes (Precision)?
+### 1. Análisis Descriptivo (¿Qué pasó en la cartera?) 🏛️
+* **Exposición y Pérdida:** ¿Cuál es la tasa de mora histórica y qué volumen total de dinero representó esa pérdida para la entidad?
+* **Segmentación del Riesgo:** ¿Qué perfiles concentraron el mayor incumplimiento (según grado del préstamo, destino del crédito, nivel de ingresos o antigüedad laboral)?
+* **Rentabilidad vs. Riesgo:** ¿La tasa de interés aplicada compensó adecuadamente el nivel de riesgo de los clientes?
+
+### 2. Análisis Predictivo (¿Qué va a pasar con Machine Learning?) 🤖
+* **Capacidad de Detección:** ¿Qué porcentaje de morosos reales logra predecir el algoritmo antes de otorgar el crédito?
+* **Impacto de la Decisión:** ¿Cuántas solicitudes se aprueban o rechazan según la política de crédito actual?
+* **Costo de Oportunidad vs. Protección de Capital:** ¿Cuánto capital en mora potencial se evita prestar frente a cuánto dinero se deja de colocar por clientes solventes rechazados?
 
 ---
 

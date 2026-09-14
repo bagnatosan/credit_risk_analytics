@@ -65,9 +65,32 @@ El problema se abordó como una **clasificación binaria** supervisada sobre la 
              │
              ▼
 [ Dashboard Ejecutivo en Power BI (Seguimiento & KPIs de Riesgo) ]
-
 ```
 
+---
+
+## 🗂️ Arquitectura de Medidas DAX (Display Folders)
+
+Para garantizar un modelo semántico limpio y escalable en Power BI, las medidas se centralizan en la tabla `_Medidas` y se organizan en subcarpetas de visualización (*Display Folders*) asignadas desde la **Vista de Modelo**:
+
+### 📁 `01_Descriptive` (Diagnóstico de Cartera Histórica)
+* `[Total Applications]`: Conteo total de solicitudes de crédito evaluadas.
+* `[Total Defaults]`: Volumen total de créditos que cayeron en cesación de pagos (`loan_status = 1`).
+* `[Default Rate]`: Tasa porcentual histórica de mora (`DIVIDE([Total Defaults], [Total Applications], 0)`).
+* `[Total Default Amount]`: Pérdida monetaria total acumulada en préstamos impagos.
+* `[Average Interest Rate]`: Tasa de interés promedio ponderada de la cartera.
+
+### 📁 `02_Predictive` (Impacto del Modelo de Machine Learning - Umbral 0.35)
+* `[Detected Defaults]`: Morosos reales interceptados preventivamente por el modelo.
+* `[Default Detection Rate]`: Sensibilidad o cobertura del algoritmo (*Recall* operativo: $\approx 75\%$).
+* `[Approved Applications]`: Créditos otorgados bajo la política calibrada (`probabilidad_mora < 0.35`).
+* `[Approval Rate]`: Tasa porcentual de solicitudes aprobadas sobre el total.
+* `[Rejected Applications]`: Créditos rechazados preventivamente por riesgo excesivo.
+* `[Rejection Rate]`: Tasa porcentual de solicitudes denegadas.
+* `[Avoided Default Amount]`: Capital en riesgo salvaguardado al no desembolsar a clientes morosos.
+* `[Opportunity Cost Amount]`: Dinero no colocado por rechazo de solicitantes solventes (falsos positivos).
+
+---
 
 ## 📁 Estructura del Proyecto
 ```text

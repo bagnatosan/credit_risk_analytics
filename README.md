@@ -77,7 +77,7 @@ El problema se abordó como una **clasificación binaria** supervisada sobre la 
 
 Para garantizar un desempeño óptimo en el motor en memoria **VertiPaq** y eliminar ambigüedades en la propagación de contextos, los datos se estructuraron bajo un **Esquema en Estrella (*Star Schema*)** siguiendo las directrices de diseño dimensional de Ralph Kimball:
 
-![Modelo Dimensional en Estrella](assets/00_star_scheme_model.png)
+![Modelo Dimensional en Estrella](assets/00_star_schema_model.png)
 
 ### 1. Tabla de Hechos (`Fact_Loan_Applications`)
 Centraliza el evento transaccional del negocio (la solicitud y otorgamiento del préstamo):
